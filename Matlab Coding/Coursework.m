@@ -66,39 +66,23 @@ T = (2*pi*ra)/v
 
 %% Q5 - TEXT FORMAT, PRINT AND LOOPS [12 MARKS]
 % a) How many locations?
-
 clear
 clc
 
-numLocations = input("Enter number of locations:")
+numLocations = input("Enter number of locations: ");
+
 % b) Info for each location:
-locations = struct('name', cell(1,numLocations), ...
-                   'temperature', cell(1,numLocations), ...
-                   'humidity', cell(1,numLocations), ...
-                   'windspeed', cell(1,numLocations));
-
 for k = 1:numLocations
-    prompt = sprintf("Enter name for location %d: ", k);
-    name = input(prompt, 's');             % text
-
-    temp = input(sprintf("Enter temperature for %s: ", name));   % numeric
-    hum  = input(sprintf("Enter humidity for %s: ", name));      % numeric
-    ws   = input(sprintf("Enter wind speed for %s: ", name));    % numeric
-
-    locations(k).name = name;
-    locations(k).temperature = temp;
-    locations(k).humidity = hum;
-    locations(k).windspeed = ws;
-end
-
-locations.fields(:,:)
-%% 
-for k = 1:numlocations
-    x = sprintf("Enter name for location %d: ", k); 
-    temp = input(sprintf("Enter temperature for %s: ", name))
-    hum  = input(sprintf("Enter humidity for %s: ", name));      % numeric
-    ws   = input(sprintf("Enter wind speed for %s: ", name)); 
-    x = [temp,hum,ws]
+    location = input("Enter name for location: ", 's');
+    
+    temp = input(sprintf("Enter temperature for %s: ", location));
+    hum  = input(sprintf("Enter humidity for %s: ", location));
+    ws   = input(sprintf("Enter wind speed for %s: ", location));
+    
+    data = [temp, hum, ws];
+    
+    fprintf("Data for %s [Temp Hum Wind]: ", location);
+    disp(data)
 end
 %% Q6 - PROGRAM FLOW [14 MARKS]
 clear
