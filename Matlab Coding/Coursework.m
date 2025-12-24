@@ -54,12 +54,42 @@ c = -2e13
 ra = (-b + sqrt(b^2-4*a*c))/2*a
 rb = (-b - sqrt(b^2-4*a*c))/2*a
 % b)
-% selection: ra, as it is the only positive root
-
+% selection: ra, as it is the only positive root and a length can only be
+% positive.
+% c)
+F = (6.674e-11*5.97e24*1000)/ra^2
+% d)
+v = sqrt((6.674e-11*5.97e24)/ra))
+% e)
+T = (2*pi*ra)/v
 
 
 %% Q5 - TEXT FORMAT, PRINT AND LOOPS [12 MARKS]
+% a) How many locations?
+
 clear
+clc
+
+numLocations = input("Enter number of locations:")
+% b) Info for each location:
+locations = struct('name', cell(1,numLocations), ...
+                   'temperature', cell(1,numLocations), ...
+                   'humidity', cell(1,numLocations), ...
+                   'windspeed', cell(1,numLocations));
+
+for k = 1:numLocations
+    prompt = sprintf("Enter name for location %d: ", k);
+    name = input(prompt, 's');             % text
+
+    temp = input(sprintf("Enter temperature for %s: ", name));   % numeric
+    hum  = input(sprintf("Enter humidity for %s: ", name));      % numeric
+    ws   = input(sprintf("Enter wind speed for %s: ", name));    % numeric
+
+    locations(k).name = name;
+    locations(k).temperature = temp;
+    locations(k).humidity = hum;
+    locations(k).windspeed = ws;
+end
 
 
 %% Q6 - PROGRAM FLOW [14 MARKS]
