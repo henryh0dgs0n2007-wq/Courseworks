@@ -65,25 +65,33 @@ T = (2*pi*ra)/v
 
 
 %% Q5 - TEXT FORMAT, PRINT AND LOOPS [12 MARKS]
-% a) How many locations?
 clear
 clc
 
+% a) How many locations?
 numLocations = input("Enter number of locations: ");
+
+% Preallocate variables
+Location = strings(numLocations,1);
+Temperature = zeros(numLocations,1);
+Humidity = zeros(numLocations,1);
+WindSpeed = zeros(numLocations,1);
 
 % b) Info for each location:
 for k = 1:numLocations
-    location = input("Enter name for location: ", 's');
+    Location(k) = input("Enter name for location: ", 's');
     
-    temp = input(sprintf("Enter temperature for %s: ", location));
-    hum  = input(sprintf("Enter humidity for %s: ", location));
-    ws   = input(sprintf("Enter wind speed for %s: ", location));
-    
-    data = [temp, hum, ws];
-    
-    fprintf("Data for %s [Temp Hum Wind]: ", location);
-    disp(data)
+    Temperature(k) = input(sprintf("Enter temperature for %s: ", Location(k)));
+    Humidity(k)    = input(sprintf("Enter humidity for %s: ", Location(k)));
+    WindSpeed(k)   = input(sprintf("Enter wind speed for %s: ", Location(k)));
 end
+
+% Create table
+WeatherTable = table(Location, Temperature, Humidity, WindSpeed);
+
+% Display the full table
+disp("Overall Weather Data:")
+disp(WeatherTable)
 %% Q6 - PROGRAM FLOW [14 MARKS]
 clear
 
