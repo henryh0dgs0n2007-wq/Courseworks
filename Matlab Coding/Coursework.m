@@ -23,16 +23,38 @@ e = sqrt(x^2 + 1)*x^3 + (x+2)/(x-2)
 x = linspace(-3*pi, 3*pi, 150)
 % b)
 a = cos(x)
+% c)
+b = sin(3*x)
 % d) 
-exp(-cos(x).^2)
-
-
+c = exp(-cos(x)^2)
+% e)
+d = b * c
+% f)
+m = mean(b)
+s = std(b)
+% g)
+% small rounding errors from the approximated value of pi used.
 %% Q3 - VECTORS 2 [7 MARKS]
-clear
-
+% a)
+t = 0:2e-3:40e-3
+% b)
+V = 5 + 3*sin(100*pi*t)
+% c)
+i = 0.2 + 0.1*cos(100*pi*t)
+% d)
+p = i.*V
+% e)
+max(p)
 
 %% Q4 - EQUATIONS [11 MARKS]
-clear
+% a)
+a = 1
+b = -1.2e7
+c = -2e13
+ra = (-b + sqrt(b^2-4*a*c))/2*a
+rb = (-b - sqrt(b^2-4*a*c))/2*a
+% b)
+% selection: ra, as it is the only positive root
 
 
 
