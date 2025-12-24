@@ -91,7 +91,15 @@ for k = 1:numLocations
     locations(k).windspeed = ws;
 end
 
-
+locations.fields(:,:)
+%% 
+for k = 1:numlocations
+    x = sprintf("Enter name for location %d: ", k); 
+    temp = input(sprintf("Enter temperature for %s: ", name))
+    hum  = input(sprintf("Enter humidity for %s: ", name));      % numeric
+    ws   = input(sprintf("Enter wind speed for %s: ", name)); 
+    x = [temp,hum,ws]
+end
 %% Q6 - PROGRAM FLOW [14 MARKS]
 clear
 
