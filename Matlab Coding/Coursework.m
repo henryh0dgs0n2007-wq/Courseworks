@@ -89,16 +89,34 @@ end
 % Create table
 WeatherTable = table(Location, Temperature, Humidity, WindSpeed);
 
+% e) Calculate averages
+avgTemp     = mean(Temperature);
+avgHumidity = mean(Humidity);
+avgWind     = mean(WindSpeed);
+
+% Create a row for averages
+AverageRow = table("Average", avgTemp, avgHumidity, avgWind, ...
+    'VariableNames', WeatherTable.Properties.VariableNames);
+
+% Add the average row to the table
+WeatherTable = [WeatherTable; AverageRow];
+
 % Display the full table
 disp("Overall Weather Data:")
 disp(WeatherTable)
+
+% f) The script relies on being maually updated and then the data is only
+% relavant for a certain amount of time before conditions change. It may be
+% more usefull to have the script automatically take current data from a source and
+% create a table every hour, this would save having to key it in every
+% time.
 %% Q6 - PROGRAM FLOW [14 MARKS]
 clear
 
 
 
 %% Q7 - FOR LOOPS, SWITCH STATEMENTS AND DISPLAYING DATA [16 MARKS]
-clear
+clear 
 
 
 
