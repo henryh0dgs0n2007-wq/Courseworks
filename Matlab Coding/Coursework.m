@@ -3,7 +3,10 @@
 
 
 %% Q1 - VARIABLES [9 MARKS]
-x = 2.3
+clear
+clc
+
+x = 2.3;
 % a)
 a = sin(3*x)
 % b)
@@ -19,6 +22,9 @@ f = sin(3*x)^2 + cos(x)^2 + sin(x)^2
 % g)
 e = sqrt(x^2 + 1)*x^3 + (x+2)/(x-2)
 %% Q2 - VECTORS 1 [9 MARKS]
+clear
+clc
+
 % a)  
 x = linspace(-3*pi, 3*pi, 150)
 % b)
@@ -35,6 +41,9 @@ s = std(b)
 % g)
 % small rounding errors from the approximated value of pi used.
 %% Q3 - VECTORS 2 [7 MARKS]
+clear
+clc
+
 % a)
 t = 0:2e-3:40e-3
 % b)
@@ -47,6 +56,9 @@ p = i.*V
 max(p)
 
 %% Q4 - EQUATIONS [11 MARKS]
+clear
+clc
+
 % a)
 a = 1
 b = -1.2e7
@@ -59,7 +71,7 @@ rb = (-b - sqrt(b^2-4*a*c))/2*a
 % c)
 F = (6.674e-11*5.97e24*1000)/ra^2
 % d)
-v = sqrt((6.674e-11*5.97e24)/ra))
+v = sqrt((6.674e-11*5.97e24)/ra)
 % e)
 T = (2*pi*ra)/v
 
@@ -150,7 +162,7 @@ while true
     end
 end
 
-PitchAngle = PitchAngle + 4
+PitchAngle = PitchAngle + 4;
 
 while true % new decent rate at 1m/s
     Alt1 = getAltitude();   % current altitude
@@ -177,7 +189,7 @@ while true % new decent rate at 1m/s
     end
 end
 
-PitchAngle = PitchAngle + 2
+PitchAngle = PitchAngle + 2;
 
 while true % new decent rate at 0.5m/s
     Alt1 = getAltitude();   % current altitude
@@ -259,6 +271,7 @@ fprintf('Maximum time to landing: %.2f seconds\n', MaxTotalTime);
 fprintf('Average time to landing: %.2f seconds\n', AvgTotalTime);
 %% Q7 - FOR LOOPS, SWITCH STATEMENTS AND DISPLAYING DATA [16 MARKS]
 clear 
+clc
 
 
 
