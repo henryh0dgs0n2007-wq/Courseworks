@@ -111,10 +111,152 @@ disp(WeatherTable)
 % create a table every hour, this would save having to key it in every
 % time.
 %% Q6 - PROGRAM FLOW [14 MARKS]
+% b/c) Impliment code + comment
+clear;
+clc;
+
+TimeDelay = 3;
+PitchAngle = 0;   % represents thrust
+gearLowered = false;
+
+while true
+    Alt1 = getAltitude();   % altitude reading from computer
+
+    % End loop when drone is below 50 m
+    if Alt1 < 50
+        break;
+    end
+
+    % Lower landing gear below 500 m (once)
+    if Alt1 < 500 && ~gearLowered
+        lowerLandingGear();
+        gearLowered = true;
+    end
+
+    pause(TimeDelay);
+
+    Alt2 = getAltitude();   % second altitude reading
+
+    % Descent rate (positive = descending)
+    Vd = -(Alt2 - Alt1) / TimeDelay;
+
+    % Control logic
+    if Vd > 7 && Vd < 8
+        % correct descent rate → do nothing
+    elseif Vd < 7
+        PitchAngle = PitchAngle - 1;   % descending too slowly
+    elseif Vd > 8
+        PitchAngle = PitchAngle + 1;   % descending too quickly
+    end
+end
+
+PitchAngle = PitchAngle + 4
+
+while true % new decent rate at 1m/s
+    Alt1 = getAltitude();   % current altitude
+
+    % Stop loop at 5 m (near touchdown)
+    if Alt1 <= 5
+        break;
+    end
+
+    pause(TimeDelay);
+
+    Alt2 = getAltitude();   % altitude after delay
+
+    % Compute descent rate (positive = descending)
+    Vd = -(Alt2 - Alt1) / TimeDelay;
+
+    % Control logic for slow descent
+    if Vd > 0.5 && Vd < 1.5
+        % Correct descent rate → do nothing
+    elseif Vd < 1
+        PitchAngle = PitchAngle - 1;   % descending too slowly
+    elseif Vd > 1
+        PitchAngle = PitchAngle + 1;   % descending too quickly
+    end
+end
+
+PitchAngle = PitchAngle + 2
+
+while true % new decent rate at 0.5m/s
+    Alt1 = getAltitude();   % current altitude
+
+    % Stop loop at 5 m (near touchdown)
+    if Alt1 <= 0.1
+        break;
+    end
+
+    pause(TimeDelay);
+
+    Alt2 = getAltitude();   % altitude after delay
+
+    % Compute descent rate (positive = descending)
+    Vd = -(Alt2 - Alt1) / TimeDelay;
+
+    % Control logic for slow descent
+    if Vd > 0.3 && Vd < 0.7
+        % Correct descent rate → do nothing
+    elseif Vd < 0.5
+        PitchAngle = PitchAngle - 1;   % descending too slowly
+    elseif Vd > 0.5
+        PitchAngle = PitchAngle + 1;   % descending too quickly
+    end
+end
+
+motor1 = 0;
+motor2 = 0;
+motor3 = 0;
+motor4 = 0;
+
+activatebeacon();
+
+%% d) simulated estimate for landing gear deployment:
 clear
+clc
+StartAlt = 3000;
+LandingGearAlt = 500;
+MaxDecentSpeed = 8;
+MinDecentSpeed = 7;
+MinTime = (StartAlt - LandingGearAlt)/MaxDecentSpeed;
+MaxTime = (StartAlt - LandingGearAlt)/MinDecentSpeed;
+MinMax = [MinTime, MaxTime];
+AvgTime = mean(MinMax);
 
+fprintf('Minimum time to deploy: %.2f seconds\n', MinTime);
+fprintf('Maximum time to deploy: %.2f seconds\n', MaxTime);
+fprintf('Average time to deploy: %.2f seconds\n', AvgTime);
 
+%% e) simulated estimate for landing:
+StartAlt = 3000;
+Stage1Alt = 50;
+MaxDecentSpeed = 8;
+MinDecentSpeed = 7;
+MinS1Time = (StartAlt - Stage1Alt)/MaxDecentSpeed;
+MaxS1Time = (StartAlt - Stage1Alt)/MinDecentSpeed;
 
+StartAlt = 50;
+Stage2Alt = 5;
+MaxDecentSpeed = 1.5;
+MinDecentSpeed = 0.5;
+MinS2Time = (StartAlt - Stage2Alt)/MaxDecentSpeed;
+MaxS2Time = (StartAlt - Stage2Alt)/MinDecentSpeed;
+
+StartAlt = 5;
+Stage3Alt = 0;
+MaxDecentSpeed = 0.7;
+MinDecentSpeed = 0.3;
+MinS3Time = (StartAlt - Stage3Alt)/MaxDecentSpeed;
+MaxS3Time = (StartAlt - Stage3Alt)/MinDecentSpeed;
+
+MaxTotalTime = MaxS1Time + MaxS2Time + MaxS3Time;
+MinTotalTime = MinS1Time + MinS2Time + MinS3Time;
+MaxMin = [MaxTotalTime, MinTotalTime];
+AvgTotalTime = mean(MaxMin);
+
+fprintf('Minimum time to landing: %.2f seconds\n', MinTotalTime);
+fprintf('Maximum time to landing: %.2f seconds\n', MaxTotalTime);
+fprintf('Average time to landing: %.2f seconds\n', AvgTotalTime);
 %% Q7 - FOR LOOPS, SWITCH STATEMENTS AND DISPLAYING DATA [16 MARKS]
 clear 
 
