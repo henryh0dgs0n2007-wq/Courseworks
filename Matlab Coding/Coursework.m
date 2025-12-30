@@ -32,9 +32,9 @@ a = cos(x)
 % c)
 b = sin(3*x)
 % d) 
-c = exp(-cos(x)^2)
+c = exp(-cos(x).^2)
 % e)
-d = b * c
+d = b .* c
 % f)
 m = mean(b)
 s = std(b)
@@ -53,7 +53,8 @@ i = 0.2 + 0.1*cos(100*pi*t)
 % d)
 p = i.*V
 % e)
-max(p)
+MaxP = max(p);
+fprintf('Max instantanious power: %d \n', MaxP)
 
 %% Q4 - EQUATIONS [11 MARKS]
 clear
@@ -63,8 +64,8 @@ clc
 a = 1
 b = -1.2e7
 c = -2e13
-ra = (-b + sqrt(b^2-4*a*c))/2*a
-rb = (-b - sqrt(b^2-4*a*c))/2*a
+ra = (-b + sqrt(b^2 - 4*a*c)) / (2*a)
+rb = (-b - sqrt(b^2 - 4*a*c)) / (2*a)
 % b)
 % selection: ra, as it is the only positive root and a length can only be
 % positive.
@@ -117,13 +118,17 @@ WeatherTable = [WeatherTable; AverageRow];
 disp("Overall Weather Data:")
 disp(WeatherTable)
 
-% f) The script relies on being maually updated and then the data is only
-% relavant for a certain amount of time before conditions change. It may be
-% more usefull to have the script automatically take current data from a source and
+% f) The script relies on being manually updated and then the data is only
+% relevant for a certain amount of time before conditions change. It may be
+% more useful to have the script automatically take current data from a source and
 % create a table every hour, this would save having to key it in every
 % time.
 %% Q6 - PROGRAM FLOW [14 MARKS]
 % b/c) Impliment code + comment
+
+% NOTE: getAltitude, lowerLandingGear, activatebeacon are assumed system functions
+
+
 clear;
 clc;
 
@@ -164,7 +169,7 @@ end
 
 PitchAngle = PitchAngle + 4;
 
-while true % new decent rate at 1m/s
+while true % new descent rate at 1m/s
     Alt1 = getAltitude();   % current altitude
 
     % Stop loop at 5 m (near touchdown)
@@ -270,12 +275,87 @@ fprintf('Minimum time to landing: %.2f seconds\n', MinTotalTime);
 fprintf('Maximum time to landing: %.2f seconds\n', MaxTotalTime);
 fprintf('Average time to landing: %.2f seconds\n', AvgTotalTime);
 %% Q7 - FOR LOOPS, SWITCH STATEMENTS AND DISPLAYING DATA [16 MARKS]
-clear 
+clear
 clc
 
+ExhaustVelocityChoice = menu('Choose an exhaust velocity (m/s)', '2000', '2500', '3000');
+
+switch ExhaustVelocityChoice
+    case 1
+        ExhaustVelocity = 2000; % creates the largest possible array (10)
+    case 2
+        ExhaustVelocity = 2500;
+    case 3
+        ExhaustVelocity = 3000;
+end
+
+fprintf('Exhaust Velocity: %d m/s \n', ExhaustVelocity);
+
+% b)
+MassFR = 1;
+i = 1;
+
+% preallocate size of array for efficiency
+
+ArraySize = ceil(19000 / ExhaustVelocity);
+
+MassFRvals = zeros(1, ArraySize);
+Thrustvals = zeros(1, ArraySize); 
+Ratingvals = strings(1, ArraySize); 
+
+while true
+    Thrust = MassFR * ExhaustVelocity;
+
+    % Classify thrust rating
+    if Thrust < 10000
+        Rating = "Low";
+    elseif Thrust < 15000
+        Rating = "Medium";
+    else
+        Rating = "High";
+    end
+
+    % Store results
+    MassFRvals(1:i) = MassFR;
+    Thrustvals(1:i) = Thrust;
+    Ratingvals(1:i) = Rating;
+
+    if Thrust > 19000
+        break
+    end
+    fprintf('Mass Flow Rate: %d kg/s | Thrust: %d N | Level: %s \n', MassFR, Thrust, Rating);
+
+    MassFR = MassFR + 1;
+    i = i + 1;
+end
+
+PrintChoice = menu('save results as txt file?', 'Yes', 'No');
+
+if PrintChoice == 1
+     fileID = fopen('thrust_results.txt', 'w');
+
+    % Write header
+    fprintf(fileID, 'Exhaust Velocity: %d m/s\n\n', ExhaustVelocity);
+    fprintf(fileID, 'Mass Flow Rate | Thrust (N) | Rating\n');
+
+    % Write each row
+    for k = 1:length(MassFRvals)
+        fprintf(fileID, '%14d | %10d | %s\n', MassFRvals(k), Thrustvals(k), Ratingvals(k));
+    end
+
+    fclose(fileID);
+
+    open('thrust_results.txt');   % opens the file
+
+else
+    fprintf('Results were not saved.\n');
+end
+
+% f) the switch statements uses fewer lines than an if stastement, and
+% makes it easy to add more options for exaust velocity.
 
 
-%% PRESENTATION AND FORMATTING [15 MARKS]
+%% PRESENTATION AND FORMATTING [15 MARKS]]
 % You do not need to put anything in this section
 % Marks will be given for neat, tidy presentation, sensible and informative
 % variable names, commenting and remembering to put your name and email address at the top of the
